@@ -6,18 +6,7 @@ import '../../providers.dart';
 import 'home_page_controller.dart';
 import 'widgets/movie_list.dart';
 
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  void initState() {
-    super.initState();
-    context.read(moviePageControllerProvider).getMovies();
-  }
-
+class HomePage extends StatelessWidget {
   Widget _appBar(BuildContext context) {
     return AppBar(
       title: Text(
