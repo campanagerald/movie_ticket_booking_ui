@@ -19,5 +19,5 @@ final dioProvider = Provider(
 final movieRepositoryProvider = Provider((ref) => MovieRepository(ref.read));
 
 final moviePageControllerProvider =
-    StateNotifierProvider.autoDispose<MoviePageController>(
-        (ref) => MoviePageController(ref.watch(movieRepositoryProvider)));
+    StateNotifierProvider.autoDispose<MoviePageController>((ref) =>
+        MoviePageController(ref.watch(movieRepositoryProvider))..getMovies());
