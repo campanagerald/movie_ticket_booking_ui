@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../constants.dart';
 import '../../models/movie.dart';
@@ -42,7 +43,7 @@ class _DetailedPageState extends State<DetailedPage> {
                         imageUrl:
                             '${context.read(movieImageBaseUrl)}${widget.movie.details.backdropPath}',
                         maxExtent: constraints.maxHeight * 0.4,
-                        minExtent: constraints.maxHeight * 0.08,
+                        minExtent: constraints.maxHeight * 0.10,
                         title: widget.movie.details.originalTitle,
                       ),
                     ),
@@ -124,6 +125,14 @@ class _DetailedPageState extends State<DetailedPage> {
                                           .profilePath !=
                                       null
                                   ? CachedNetworkImage(
+                                      placeholder: (_, url) {
+                                        return Shimmer.fromColors(
+                                          child: Container(color: Colors.white),
+                                          baseColor: Colors.grey[300],
+                                          highlightColor: Colors.grey[100],
+                                          direction: ShimmerDirection.ltr,
+                                        );
+                                      },
                                       fit: BoxFit.cover,
                                       imageUrl:
                                           '${context.read(movieImageBaseUrl)}${widget.movie.credits.cast[index].profilePath}')
@@ -201,6 +210,14 @@ class BackdropPersistentHeaderDelegate
             ).createShader(bounds);
           },
           child: CachedNetworkImage(
+            placeholder: (_, urk) {
+              return Shimmer.fromColors(
+                child: Container(color: Colors.white),
+                baseColor: Colors.grey[300],
+                highlightColor: Colors.grey[100],
+                direction: ShimmerDirection.ltr,
+              );
+            },
             imageUrl: imageUrl,
             fit: BoxFit.cover,
           ),
