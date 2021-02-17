@@ -1,7 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:movie_ticket_booking_ui/src/models/movie.dart';
-import 'package:movie_ticket_booking_ui/src/repository/movie_repository.dart';
+
+import '../../models/movie.dart';
+import '../../repository/movie_repository.dart';
 
 part 'home_page_controller.freezed.dart';
 
