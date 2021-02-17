@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../constants.dart';
 import '../../providers.dart';
-import 'home_page_controller.dart';
 import 'widgets/movie_list.dart';
 
 class HomePage extends StatelessWidget {
@@ -52,13 +51,14 @@ class HomePage extends StatelessWidget {
               builder: (context, watch, child) {
                 final state = watch(moviePageControllerProvider.state);
 
-                if (state is MovieLoading) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (state is MovieLoaded) {
-                  return MovieList(movies: state.movies);
-                } else {
-                  return Container();
-                }
+                return state.when(
+                  initial: () => SizedBox.shrink(),
+                  loading: () => Center(child: CircularProgressIndicator()),
+                  loaded: (movies) => MovieList(movies: movies),
+                  error: (error) => Center(
+                    child: Text(error),
+                  ),
+                );
               },
             ),
           ),

@@ -20,10 +20,14 @@ dependencies:
   state_notifier: ^0.6.0
   shimmer: ^1.1.2
   animations: ^1.1.2
+  freezed_annotation: ^0.12.0
   
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  build_runner:
+  freezed: ^0.12.7
+  json_serializable: ^3.5.1
 
 flutter:
   assets:

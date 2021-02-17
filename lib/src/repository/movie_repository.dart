@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:movie_ticket_booking_ui/src/models/credits.dart';
-import 'package:movie_ticket_booking_ui/src/models/details.dart';
-import 'package:movie_ticket_booking_ui/src/models/movie.dart';
 
+import '../models/credits.dart';
+import '../models/details.dart';
+import '../models/movie.dart';
 import '../providers.dart';
 
 class MovieRepository {
@@ -46,7 +46,7 @@ class MovieRepository {
   Future<Details> getMovieDetails(int id) async {
     try {
       final response = await _dio.get('/movie/$id?api_key=$_apiKey');
-      return Details.fromMap(response.data);
+      return Details.fromJson(response.data);
     } catch (e) {
       rethrow;
     }
@@ -55,7 +55,7 @@ class MovieRepository {
   Future<Credits> getMovieCredits(int id) async {
     try {
       final response = await _dio.get('/movie/$id/credits?api_key=$_apiKey');
-      return Credits.fromMap(response.data);
+      return Credits.fromJson(response.data);
     } catch (e) {
       rethrow;
     }

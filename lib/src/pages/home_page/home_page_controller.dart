@@ -1,60 +1,30 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:movie_ticket_booking_ui/src/models/movie.dart';
+import 'package:movie_ticket_booking_ui/src/repository/movie_repository.dart';
 
-import '../../models/movie.dart';
-import '../../repository/movie_repository.dart';
+part 'home_page_controller.freezed.dart';
 
-abstract class MovieState {
-  const MovieState();
-}
-
-class MovieInitial implements MovieState {
-  const MovieInitial();
-}
-
-class MovieLoading implements MovieState {
-  const MovieLoading();
-}
-
-class MovieLoaded implements MovieState {
-  final List<Movie> movies;
-
-  const MovieLoaded(this.movies);
-
-  @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
-
-    return o is MovieLoaded && o.movies == movies;
-  }
-
-  @override
-  int get hashCode => movies.hashCode;
-}
-
-class MovieError implements MovieState {
-  final String message;
-
-  const MovieError(this.message);
-
-  @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
-
-    return o is MovieError && o.message == message;
-  }
-
-  @override
-  int get hashCode => message.hashCode;
+@freezed
+abstract class MovieState with _$MovieState {
+  const factory MovieState.initial() = _Initial;
+  const factory MovieState.loading() = _Loading;
+  const factory MovieState.loaded(List<Movie> movies) = _Loaded;
+  const factory MovieState.error(String message) = _Error;
 }
 
 class MoviePageController extends StateNotifier<MovieState> {
   final MovieRepository _movieRepository;
 
-  MoviePageController(this._movieRepository) : super(MovieInitial());
+  MoviePageController(this._movieRepository) : super(MovieState.initial());
 
   getMovies() async {
-    state = MovieLoading();
-    final movies = await _movieRepository.getMovies();
-    state = MovieLoaded(movies);
+    try {
+      state = MovieState.loading();
+      final movies = await _movieRepository.getMovies();
+      state = MovieState.loaded(movies);
+    } catch (e) {
+      state = MovieState.error('Something went wrong');
+    }
   }
 }
